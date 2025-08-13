@@ -1,0 +1,25 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+
+# RAG experiment caches
+knowledge_base_cache.json
+loogle_cache.json
+chroma_db/
+results/
+
+# Data files (should be downloaded via scripts/download_loogle_dataset.py)
+data/*.csv
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/
+.DS_Store
