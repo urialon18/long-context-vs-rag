@@ -14,7 +14,7 @@ class Config:
     """Configuration settings for the RAG comparison experiment."""
 
     # API Configuration
-    google_api_key: str = os.getenv("GOOGLE_API_KEY", "")
+    google_api_key: str = os.getenv("GEMINI_API_KEY", "")
 
     # Model Configuration
     llm_model: str = "gemini-2.5-flash"  # Gemini 2.5 Flash

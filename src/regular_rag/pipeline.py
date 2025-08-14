@@ -46,7 +46,7 @@ class RegularRAGPipeline:
 
     def index_documents(self, documents: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Index documents for retrieval. Skips if already indexed.
+        Index documents for retrieval. Always clears existing index to prevent duplicates.
 
         Args:
             documents: List of documents to index
@@ -54,23 +54,13 @@ class RegularRAGPipeline:
         Returns:
             Indexing statistics
         """
+        # Always clear the index to prevent duplicates and ensure fresh indexing
         if self.is_indexed:
-            print(
-                "📋 Vector store already contains indexed documents, skipping indexing..."
-            )
-            stats = self.vector_store.get_collection_stats()
-            return {
-                "total_documents": len(documents),
-                "total_chunks": stats["total_chunks"],
-                "total_tokens": 0,  # Not tracked for existing index
-                "avg_chunks_per_doc": stats["total_chunks"] / len(documents)
-                if len(documents) > 0
-                else 0,
-                "avg_tokens_per_chunk": 0,  # Not tracked for existing index
-                "indexing_time": 0.0,
-                "chunks_per_second": 0,
-                "cached": True,
-            }
+            print("🗑️  Clearing existing index to prevent duplicates...")
+            self.clear_index()
+
+        # Check if we have the exact same documents already indexed
+        # This is a more robust check but for now, we'll always re-index to be safe
 
         print("🔄 Starting Regular RAG indexing pipeline...")
         start_time = time.time()

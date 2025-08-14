@@ -59,12 +59,18 @@ class ChromaVectorStore:
         for chunk in chunks:
             metadata = {
                 "doc_id": str(chunk["doc_id"]),
-                "kb_id": str(chunk["kb_id"]),
                 "chunk_index": chunk["chunk_index"],
-                "is_relevant": chunk["is_relevant"],
-                "question_id": chunk["question_id"],
                 "token_count": chunk["token_count"],
             }
+
+            # Add optional fields if they exist (for backwards compatibility)
+            if "kb_id" in chunk:
+                metadata["kb_id"] = str(chunk["kb_id"])
+            if "is_relevant" in chunk:
+                metadata["is_relevant"] = chunk["is_relevant"]
+            if "question_id" in chunk:
+                metadata["question_id"] = chunk["question_id"]
+
             metadatas.append(metadata)
 
         # Add to collection in batches

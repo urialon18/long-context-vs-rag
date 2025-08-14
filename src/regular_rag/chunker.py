@@ -110,12 +110,19 @@ class DocumentChunker:
         self, document: Dict[str, Any], chunk_text: str, chunk_index: int
     ) -> Dict[str, Any]:
         """Create a chunk with metadata."""
-        return {
+        chunk = {
             "content": chunk_text,
             "chunk_index": chunk_index,
             "doc_id": document["id"],
-            "kb_id": document["kb_id"],
-            "is_relevant": document["is_relevant"],
-            "question_id": document["question_id"],
             "token_count": len(chunk_text.split()),
         }
+
+        # Add optional fields if they exist (for backwards compatibility)
+        if "kb_id" in document:
+            chunk["kb_id"] = document["kb_id"]
+        if "is_relevant" in document:
+            chunk["is_relevant"] = document["is_relevant"]
+        if "question_id" in document:
+            chunk["question_id"] = document["question_id"]
+
+        return chunk
